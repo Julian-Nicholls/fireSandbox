@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* The AppModel class is a static script that allows for multiple
+ * iterations. Because it's static, it is preserved between scene 
+ * loading, and thus can be used to track how many iterations have 
+ * occured. 
+ */
+
 public class AppModel : MonoBehaviour {
 
+	//maxIterations defines how many replications of the
+	//simulation are desired
 	public int maxIterations = 4;
+
+	//sceneIteration tracks how many replications have been finished
 	public static int sceneIteration = 0; 
 
-	// Use this for initialization
 	void Start () {
 		
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		
 	}

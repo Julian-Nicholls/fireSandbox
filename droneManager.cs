@@ -2,15 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * droneManager is used to coordinate the use of drones. While 
+ * each drone is an independent agent, a centralized script
+ * is used to assign jobs to drones such that an effective or 
+ * indeed optimal solution to a problem is found and implemented. 
+ * This is where TSP Solving occurs, or where heuristic practices 
+ * are evaluated.
+ */
+
 public class droneManager : MonoBehaviour {
 
+	//The desired # of drones active in the simulation
 	public int numOfDrone;
+
+	//The landscape droneManager is protecting from fire
 	public GameObject landscape;
+
+	//The stock drone gameObject
 	public Zephyr dronePrefab;
 
+	//List of fires on the landscape
 	public List<Fire> fireArray = new List<Fire>();
+
+	//Array of drones in use by droneManager
 	public Zephyr[] droneArray;
 
+	//This should be derived from fireArray
 	int fireCount = 0;
 
 	// Use this for initialization
@@ -18,6 +36,8 @@ public class droneManager : MonoBehaviour {
 
 		Vector3[] startPoss = new Vector3[2];
 
+		//For one or two drones, start positions are defined
+		//to help reduce response times (hueristic)
 		if (numOfDrone == 1) {
 			startPoss [0] = new Vector3 (0, 21, 0);
 			startPoss [1] = new Vector3 (0, 21, 0);
@@ -27,19 +47,23 @@ public class droneManager : MonoBehaviour {
 			startPoss [1] = new Vector3 (-75, 21, -75);
 		}
 
-
+		//Initialize all the required drones
 		droneArray = new Zephyr[numOfDrone];
 
 		for (int x = 0; x < numOfDrone; x++) {
 
 			Zephyr newDrone = Instantiate (dronePrefab, startPoss[x], new Quaternion (0,0,0,0));
 			droneArray [x] = newDrone;
-		
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		/*
+		 * This is a hueristic strategy in which each unscanned
+		 * fire is assigned to the nearest drone that is free
+		 */
 
 		float sDistance = float.MaxValue;
 		Zephyr closestDrone = null;
@@ -73,13 +97,27 @@ public class droneManager : MonoBehaviour {
 
 	public void addFire(Fire newFire){
 
+		/*
+		 * As fires arrive on the landscape, they are added
+		 * to the fireArray.
+		 */
+
 		fireCount++;
 		fireArray.Add (newFire);
-
 	}
 
 	public string[] getDroneStats(int i){
 
+		/*
+		 * Each drone is responsible for tracking its own 
+		 * performance (like hours spent scanning). This function
+		 * aggregrates performance and prepares it for output 
+		 * to a text file. This is highly variable as different 
+		 * configurations demand different performance metrics.
+		 */
+
+		//each string in output is a line of a .CSV
+		//in this case one line per drone
 		string[] output = new string[droneArray.Length];
 
 		for (int x = 0; x < output.Length; x++) {
@@ -96,6 +134,16 @@ public class droneManager : MonoBehaviour {
 
 	public string[] getFireStats(int i){
 
+		/*
+		 * Each fire is responsible for tracking its own 
+		 * statistics (like hours spent burning). This function
+		 * aggregrates performance and prepares it for output 
+		 * to a text file. This is highly variable as different 
+		 * configurations demand different performance metrics.
+		 */
+
+		//each string in output is a line of a .CSV
+		//in this case one line per fire
 		string[] output = new string[fireArray.ToArray().Length];
 
 		for (int x = 0; x < output.Length; x++) {
