@@ -10,9 +10,6 @@ public class fireGeneration : MonoBehaviour {
 	public Fire firePrefab;
 	public GameObject droneManager;
 
-	public float landscapeSize;
-	public int numOfFires;
-
 	//taken straight from Distribution Manager asset
 	/// <summary>
 	/// Sample from Poisson Distribution
@@ -55,9 +52,8 @@ public class fireGeneration : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		/*
 		temp_arrivals = PoissSample (lambdar, 24);
-
+		dm = droneManager.GetComponent<droneManager> ();
 
 		for (int x = 0; x < temp_arrivals.Length; x++ ) {
 			temp_arrivals [x] = temp_arrivals [x] * 60;
@@ -74,38 +70,30 @@ public class fireGeneration : MonoBehaviour {
 		}
 		arrivals = temp;
 		spawnFire ();
-		*/
 
-		dm = droneManager.GetComponent<droneManager> ();
-
-		for (int i = 0; i < numOfFires; i++) {
-			spawnFire ();
-		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		/*
 		if(simTime.GetComponent<simTime>().elapsedTime > arrivals[fireNum]){
 
 			fireNum++;
 
 			spawnFire ();
-		}*/
+		}
 			
 	}
 
 	void spawnFire (){
 
-		float lw = Mathf.Sqrt (landscapeSize);
-
-		float fireX = Random.Range (-1 * lw, lw);
-		float fireZ = Random.Range (-1 * lw, lw);
+		float fireX = Random.Range (-132, 132);
+		float fireZ = Random.Range (-132, 132);
 
 		Vector3 firePos = new Vector3 (fireX, 0, fireZ);
 
 		Fire newFire = Instantiate (firePrefab, firePos, new Quaternion ()) as Fire; 
+
 
 		dm.addFire (newFire);
 

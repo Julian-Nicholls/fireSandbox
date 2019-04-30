@@ -16,9 +16,7 @@ public class simTime : MonoBehaviour {
 	public bool running = true;
 	public bool written = false;
 
-	public float timeScale;
-
-	string path = @"C:\Users\User\Desktop\tester.txt";
+	string path = @"D:\Users\Julian\Documents\GitHub\FireSandbox\fire sandbox\ScienceData\tester.txt";
 	string[] data;
 
 	// Use this for initialization
@@ -26,7 +24,7 @@ public class simTime : MonoBehaviour {
 
 		duration = duration * 60;
 
-		Time.timeScale = timeScale;
+		Time.timeScale = 100;
 	}
 	
 	// Update is called once per frame
@@ -34,16 +32,20 @@ public class simTime : MonoBehaviour {
 
 		elapsedTime = elapsedTime + Time.deltaTime;
 
-		if (dm.complete && !written) {
+		if (elapsedTime > duration && !written) {
 
 			print ("duration reached");
+
+			data = dm.getFireStats(am.getIter());
+			print (data);
+
 			written = true;
 
 			using(StreamWriter writetext = new StreamWriter(path, true))
 			{
-				
-				writetext.WriteLine (am.getIter() + ", " + elapsedTime);
-
+				foreach (string txt in data) {
+					writetext.WriteLine (txt);
+				}
 			}
 
 			if (am.getIter() == am.maxIterations) {
@@ -58,7 +60,6 @@ public class simTime : MonoBehaviour {
 				am.setIter (am.getIter() + 1);
 				SceneManager.LoadScene("fire sandbox") ;
 			}
-
 		}
 	}
 }

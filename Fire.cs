@@ -8,8 +8,6 @@ public class Fire : MonoBehaviour {
 	public int numOfFires;
 	public float size;
 
-	public float scanTime;
-
 	public bool detected = false; 
 	public bool scanned = false;
 	public bool targetted = false;
@@ -57,7 +55,7 @@ public class Fire : MonoBehaviour {
 
 		//in seconds?
 		//minutes probably?
-		return Random.Range(0, 2f) * 60;
+		return 2 * 60;
 	}
 
 }
