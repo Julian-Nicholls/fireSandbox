@@ -1,0 +1,93 @@
+
+$set startcity i1
+
+sets
+         i / i1 * i6 /;
+
+alias (i, j);
+
+Parameter d(i,j) 'distances in kilometers';
+*$include "C:\Users\User\Desktop\SCHOOL\Unity Model\fire sandbox\Assets\Scripts\GAMSinput.txt";
+d(i1,i1) = 0;
+d(i1,i2) = 73;
+d(i1,i3) = 82;
+d(i1,i4) = 110;
+d(i1,i5) = 59;
+d(i1,i6) = 97;
+d(i2,i1) = 73;
+d(i2,i2) = 0;
+d(i2,i3) = 94;
+d(i2,i4) = 85;
+d(i2,i5) = 124;
+d(i2,i6) = 132;
+d(i3,i1) = 82;
+d(i3,i2) = 94;
+d(i3,i3) = 0;
+d(i3,i4) = 170;
+d(i3,i5) = 93;
+d(i3,i6) = 175;
+d(i4,i1) = 110;
+d(i4,i2) = 85;
+d(i4,i3) = 170;
+d(i4,i4) = 0;
+d(i4,i5) = 157;
+d(i4,i6) = 92;
+d(i5,i1) = 59;
+d(i5,i2) = 124;
+d(i5,i3) = 93;
+d(i5,i4) = 157;
+d(i5,i5) = 0;
+d(i5,i6) = 112;
+d(i6,i1) = 97;
+d(i6,i2) = 132;
+d(i6,i3) = 175;
+d(i6,i4) = 92;
+d(i6,i5) = 112;
+d(i6,i6) = 0;
+
+display d;
+
+d(i, j) = max(d(i, j),d(j, i));
+
+scalar m 'num of salesman' /1/;
+scalar n 'nodes';
+n = card(i);
+scalar p 'cities per salesman';
+p = n;
+
+set arcs(i, j);
+arcs(i, j)$d(i, j)= yes;
+
+binary variables x(i, j);
+positive variables u(i);
+variable z;
+
+* define the start city and the cities that aren't the start city
+set i0(i) /%startcity%/;
+set i2(i);
+i2(i)$(not i0(i)) = yes;
+
+equations
+         start
+         end
+         assign1(i)
+         assign2(j)
+         sec(i, j)   'subtour elim'
+         cost
+;
+
+start.. sum(i2(j), x('%startcity%', j)) =e= m;
+end.. sum(i2(i), x(i, '%startcity%')) =e= m;
+assign1(i2(i)).. sum(arcs(i, j), x(i, j)) =e= 1;
+assign2(i2(j)).. sum(arcs(i, j), x(i, j)) =e= 1;
+sec(arcs(i, j))$(i2(i) and i2(j)).. u(i) - u(j) + p*x(i, j) =L= p-1;
+cost.. z =e= sum(arcs, d(arcs)*x(arcs));
+
+option optcr=0;
+option iterlim=1000000;
+
+model mtsp /all/;
+solve mtsp minimizing z using mip;
+
+display x.l;
+

@@ -89,7 +89,7 @@ public class fireGeneration : MonoBehaviour {
 		arrivals = temp;
 
 		//arrive the firest fire
-		spawnFire ();
+		//spawnFire ();
 
 	}
 	
