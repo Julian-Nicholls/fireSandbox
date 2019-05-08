@@ -22,6 +22,8 @@ public class droneManager : MonoBehaviour {
 	//The stock drone gameObject
 	public Zephyr dronePrefab;
 
+    public GAMStest gams;
+
 	//List of fires on the landscape
 	public List<Fire> fireArray = new List<Fire>();
 
@@ -31,9 +33,12 @@ public class droneManager : MonoBehaviour {
 	//This should be derived from fireArray
 	int fireCount = 0;
 
+    Zephyr theDrone;
+
 	// Use this for initialization
 	void Start () {
 
+        /*
 		Vector3[] startPoss = new Vector3[2];
 
 		//For one or two drones, start positions are defined
@@ -55,45 +60,87 @@ public class droneManager : MonoBehaviour {
 			Zephyr newDrone = Instantiate (dronePrefab, startPoss[x], new Quaternion (0,0,0,0));
 			droneArray [x] = newDrone;
 		}
-	}
+        */
+
+        theDrone = Instantiate(dronePrefab, new Vector3(0, 21, 0), new Quaternion(0, 0, 0, 0));
+
+        gams.transforms.Add(theDrone.transform);
+
+        foreach (Fire f in fireArray)
+        {
+
+            gams.transforms.Add(f.transform);
+        }
+
+        gams.Init();
+    }
+
+
+
 	
+    
 	// Update is called once per frame
 	void Update () {
 
-		/*
-		 * This is a hueristic strategy in which each unscanned
-		 * fire is assigned to the nearest drone that is free
-		 */
+        /*
+         * This is a hueristic strategy in which each unscanned
+         * fire is assigned to the nearest drone that is free
+         *
+         */
 
-		float sDistance = float.MaxValue;
-		Zephyr closestDrone = null;
-		Fire closestFire = null;
+        /*
+        float sDistance = float.MaxValue;
+        Zephyr closestDrone = null;
+        Fire closestFire = null;
 
-		for (int j = 0; j < fireArray.Count; j++) {
+        for (int j = 0; j < fireArray.Count; j++) {
 
-			if (!fireArray [j].targetted && !fireArray [j].scanned) {
+            if (!fireArray [j].targetted && !fireArray [j].scanned) {
 
-				for (int i = 0; i < droneArray.Length; i++) {
+                for (int i = 0; i < droneArray.Length; i++) {
 
-					if (!droneArray [i].busy) {
+                    if (!droneArray [i].busy) {
 
-						float d = Vector3.Distance (droneArray [i].transform.position, fireArray [j].transform.position);
-						if (d < sDistance) {
-							sDistance = d;
-							closestDrone = droneArray [i];
-							closestFire = fireArray [j];
-						}
-					}
-				}
-			}
-		}
+                        float d = Vector3.Distance (droneArray [i].transform.position, fireArray [j].transform.position);
+                        if (d < sDistance) {
+                            sDistance = d;
+                            closestDrone = droneArray [i];
+                            closestFire = fireArray [j];
+                        }
+                    }
+                }
+            }
+        }
 
-		if (closestDrone != null && closestFire != null) {
-			closestDrone.setFire(closestFire);
-			closestDrone.busy = true;
-			closestFire.targetted = true;
-		}
+        if (closestDrone != null && closestFire != null) {
+            closestDrone.setFire(closestFire);
+            closestDrone.busy = true;
+            closestFire.targetted = true;
+        }
+        */
+
+        if(!theDrone.busy)
+        {
+            Fire tarFire = null;
+            float dist = float.MaxValue;
+
+            Vector3 locale = gams.route.Pop();
+            print(locale);
+
+            foreach(Fire f in fireArray)
+            {
+                if (Vector3.Distance(locale, f.transform.position) < dist)
+                {
+                    tarFire = f;
+                    dist = Vector3.Distance(locale, f.transform.position);
+                }
+            }
+
+            theDrone.setFire(tarFire);
+
+        }
 	}
+    
 
 	public void addFire(Fire newFire){
 

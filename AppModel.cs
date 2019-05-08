@@ -15,13 +15,11 @@ public class AppModel : MonoBehaviour {
 	public int maxIterations = 4;
 
 	//sceneIteration tracks how many replications have been finished
-	public static int sceneIteration = 0; 
+	public static int sceneIteration = 0;
+
+    public bool onLaptop = false;
 
 	void Start () {
-		
-	}
-
-	void Update () {
 		
 	}
 

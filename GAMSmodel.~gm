@@ -7,44 +7,7 @@ sets
 alias (i, j);
 
 Parameter d(i,j) 'distances in kilometers';
-*$include "C:\Users\User\Desktop\SCHOOL\Unity Model\fire sandbox\Assets\Scripts\GAMSinput.txt";
-d(i1,i1) = 0;
-d(i1,i2) = 73;
-d(i1,i3) = 82;
-d(i1,i4) = 110;
-d(i1,i5) = 59;
-d(i1,i6) = 97;
-d(i2,i1) = 73;
-d(i2,i2) = 0;
-d(i2,i3) = 94;
-d(i2,i4) = 85;
-d(i2,i5) = 124;
-d(i2,i6) = 132;
-d(i3,i1) = 82;
-d(i3,i2) = 94;
-d(i3,i3) = 0;
-d(i3,i4) = 170;
-d(i3,i5) = 93;
-d(i3,i6) = 175;
-d(i4,i1) = 110;
-d(i4,i2) = 85;
-d(i4,i3) = 170;
-d(i4,i4) = 0;
-d(i4,i5) = 157;
-d(i4,i6) = 92;
-d(i5,i1) = 59;
-d(i5,i2) = 124;
-d(i5,i3) = 93;
-d(i5,i4) = 157;
-d(i5,i5) = 0;
-d(i5,i6) = 112;
-d(i6,i1) = 97;
-d(i6,i2) = 132;
-d(i6,i3) = 175;
-d(i6,i4) = 92;
-d(i6,i5) = 112;
-d(i6,i6) = 0;
-
+$include "D:\Users\Julian\Documents\GitHub\FireSandbox\fire sandbox\Assets\Scripts\GAMSinput.txt";
 display d;
 
 d(i, j) = max(d(i, j),d(j, i));

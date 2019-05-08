@@ -32,6 +32,8 @@ public class simTime : MonoBehaviour {
 	string path = @"D:\Users\Julian\Documents\GitHub\FireSandbox\fire sandbox\ScienceData\tester.txt";
 	string[] data;
 
+    public int ts = 1;
+
 	// Use this for initialization
 	void Start () {
 
@@ -39,7 +41,7 @@ public class simTime : MonoBehaviour {
 		duration = duration * 60;
 
 		//timeScale defines how fast the simulation runs
-		Time.timeScale = 100;
+		Time.timeScale = ts;
 	}
 	
 	// Update is called once per frame

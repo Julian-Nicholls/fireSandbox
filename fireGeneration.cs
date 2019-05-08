@@ -34,6 +34,7 @@ public class fireGeneration : MonoBehaviour {
 	 * by a poisson process
 	 */
 
+    /*
 	public static int[] PoissSample (float lambda, int sampleLenght)
 	{
 		if(lambda > 0)
@@ -59,8 +60,9 @@ public class fireGeneration : MonoBehaviour {
 			return null;
 		}
 	}
+    */
 
-	int fireNum = 0;
+	public int fireNum = 0;
 	int[] temp_arrivals;
 	float[] arrivals;
 	droneManager dm;
@@ -68,10 +70,12 @@ public class fireGeneration : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		//get an array of fire arrival intervals
-		temp_arrivals = PoissSample (lambdar, 24);
-		dm = droneManager.GetComponent<droneManager> ();
+        dm = droneManager.GetComponent<droneManager>();
 
+        //get an array of fire arrival intervals
+        //temp_arrivals = PoissSample (lambdar, 24);
+		
+        /*
 		//convert arrival intervals from hours to minutes
 		for (int x = 0; x < temp_arrivals.Length; x++ ) {
 			temp_arrivals [x] = temp_arrivals [x] * 60;
@@ -87,12 +91,19 @@ public class fireGeneration : MonoBehaviour {
 			temp [x] = sum;
 		}
 		arrivals = temp;
+        */
 
-		//arrive the firest fire
-		//spawnFire ();
+		//arrive the fires
+        for(int i = 0; i < fireNum; i++)
+        {
+
+            spawnFire();
+        }
+		
 
 	}
 	
+    /*
 	// Update is called once per frame
 	void Update () {
 
@@ -104,6 +115,7 @@ public class fireGeneration : MonoBehaviour {
 			spawnFire ();
 		}
 	}
+    */
 
 	void spawnFire (){
 
@@ -111,7 +123,7 @@ public class fireGeneration : MonoBehaviour {
 		float fireX = Random.Range (-132, 132);
 		float fireZ = Random.Range (-132, 132);
 
-		Vector3 firePos = new Vector3 (fireX, 0, fireZ);
+		Vector3 firePos = new Vector3 (fireX, 1, fireZ);
 
 		Fire newFire = Instantiate (firePrefab, firePos, new Quaternion ()) as Fire; 
 

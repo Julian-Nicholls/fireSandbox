@@ -2,12 +2,13 @@
 $set startcity i1
 
 sets
-         i / i1 * i6 /;
+$include "D:\Users\Julian\Documents\GitHub\FireSandbox\fire sandbox\Assets\Scripts\GAMSset.txt";
+*i / i1 * i6 /;
 
 alias (i, j);
 
 Parameter d(i,j) 'distances in kilometers';
-$include "C:\Users\User\Desktop\SCHOOL\Unity Model\fire sandbox\Assets\Scripts\GAMSinput.txt";
+$include "D:\Users\Julian\Documents\GitHub\FireSandbox\fire sandbox\Assets\Scripts\GAMSinput.txt";
 display d;
 
 d(i, j) = max(d(i, j),d(j, i));
